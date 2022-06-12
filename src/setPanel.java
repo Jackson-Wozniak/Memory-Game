@@ -7,23 +7,24 @@ import java.util.Timer;
 
 public class setPanel extends JFrame {
     int incorrect = 0;
-    JPanel panel;
     int correct = 0;
     int level = 3;
+    JPanel panel;
     Random random;
     ArrayList<Integer> buttonsColor;
     JButton[] arrB;
     JLabel label;
-    final Font font = new Font(Font.SANS_SERIF, Font.BOLD, 50);
     JLabel gameOver;
+    final Font font = new Font(Font.SANS_SERIF, Font.BOLD, 50);
 
     public setPanel(){
         this.setLayout(null);
+        random = new Random();
+
         label = new JLabel("Current Level: " + level);
         label.setBounds(120,0,400,100);
         label.setFont(font);
         this.add(label);
-        panel = new JPanel();
 
         gameOver = new JLabel("GAME OVER");
         gameOver.setBounds(150,200,400,100);
@@ -31,25 +32,26 @@ public class setPanel extends JFrame {
         gameOver.setVisible(false);
         this.add(gameOver);
 
-        random = new Random();
+        panel = new JPanel();
+        panel.setBounds(75,100,500,500);
+        panel.setLayout(new GridLayout(6, 6, 10, 10));
+        this.add(panel);
 
         arrB = new JButton[36];
         for (int i = 0; i < arrB.length; i++) {
             arrB[i] = new JButton();
+            arrB[i].setFocusable(false);
             panel.add(arrB[i]);
         }
-        panel.setBounds(75,100,500,500);
-        this.add(panel);
-        this.setVisible(true);
+
         this.setSize(700, 700);
-        panel.setLayout(new GridLayout(6, 6, 10, 10));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         newLevels();
     }
 
     public void newLevels(){
-        timeDelay(1000);
+        timeDelay(500);
         setColor();
         timeDelay(1000);
         setBackgroundNull(arrB);
@@ -97,7 +99,7 @@ public class setPanel extends JFrame {
             @Override
             public void run() {
                 setBackgroundNull(arrB);
-            };
+            }
         }, 1000);
 
     }
