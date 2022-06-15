@@ -1,16 +1,11 @@
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class leaderboardPanel extends JPanel {
-    private int level;
-    private String username;
-    ArrayList<JLabel> labelArray = new ArrayList<>();
 
-    public leaderboardPanel(int level){
-        this.level = level;
+    public leaderboardPanel(){
         addComponents();
     }
 
@@ -18,17 +13,22 @@ public class leaderboardPanel extends JPanel {
         this.setLayout(null);
 
         JLabel titleLabel = new JLabel("Leaderboard");
-        titleLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-        titleLabel.setBounds(50,10,150,30);
+        titleLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 35));
+        titleLabel.setBounds(160,50,250,50);
 
         JTable leaderboard = createLeaderboard();
-        leaderboard.setBounds(0, 50, 350, 300);
+        leaderboard.setBackground(new Color(214,217,223));
+        leaderboard.setBorder(new LineBorder(Color.BLACK));
+        leaderboard.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 19));
+        leaderboard.setBounds(0, 120, 590, 200);
         leaderboard.setIntercellSpacing(new Dimension(10, 10));
-        leaderboard.setRowHeight(30);
+        leaderboard.setRowHeight(40);
+        TableColumnModel columnModel = leaderboard.getColumnModel();
+        columnModel.getColumn(1).setPreferredWidth(200);
 
         this.add(leaderboard);
         this.add(titleLabel);
-        this.setPreferredSize(new Dimension(400,400));
+        this.setPreferredSize(new Dimension(600,500));
     }
 
     public JTable createLeaderboard(){

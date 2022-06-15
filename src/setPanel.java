@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
@@ -18,8 +16,6 @@ public class setPanel extends JFrame {
     JLabel label;
     JLabel gameOver;
     final Font font = new Font(Font.SANS_SERIF, Font.BOLD, 50);
-    JTextField username;
-    JButton usernameB;
     String name;
 
     public setPanel(String name){
@@ -116,6 +112,7 @@ public class setPanel extends JFrame {
         correct++;
         if(correct >= level){
             correct = 0;
+            incorrect = 0;
             level++;
             buttonsColor.removeAll(buttonsColor);
             setBackgroundNull(arrB);
@@ -151,8 +148,8 @@ public class setPanel extends JFrame {
     }
 
     public void createLeaderboard(){
-        leaderboardPanel pane = new leaderboardPanel(level);
-        pane.setBounds(50,200,400,400);
+        leaderboardPanel pane = new leaderboardPanel();
+        pane.setBounds(50,50,600,500);
         this.add(pane);
         this.setVisible(true);
     }

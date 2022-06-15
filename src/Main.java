@@ -2,6 +2,10 @@ import javax.swing.*;
 
 public class Main extends JFrame {
     public static void main(String[] args){
+        new Main();
+    }
+
+    public Main(){
         try {
 
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -10,7 +14,12 @@ public class Main extends JFrame {
             e.printStackTrace();
         }
         String name = JOptionPane.showInputDialog("Enter a username");
-        new setPanel(name);
-
+        if(name.isEmpty() || name.length() > 18){
+            JOptionPane.showMessageDialog(new JFrame(), "invalid username, must be between 0 - 18 " +
+                    "characters", "invalid", JOptionPane.ERROR_MESSAGE);
+            new Main();
+        }else{
+            new setPanel(name);
+        }
     }
 }
