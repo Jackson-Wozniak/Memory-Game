@@ -24,7 +24,7 @@ public class setPanel extends JFrame {
         random = new Random();
 
         label = new JLabel("Current Level: " + level);
-        label.setBounds(120,0,400,100);
+        label.setBounds(120,0,490,100);
         label.setFont(font);
         this.add(label);
 
@@ -129,22 +129,23 @@ public class setPanel extends JFrame {
 
     public void checkForRanking(){
         databaseInteract db = new databaseInteract();
-        if(level > db.getScore(3)){
-            if(level > db.getScore(2)){
-                if(level > db.getScore(1)){
-                    db.setUsername(1, name, level);
-                    createLeaderboard();
-                }else{
-                    db.setUsername(2, name, level);
-                    createLeaderboard();
-                }
-            }else{
-                db.setUsername(3, name, level);
-                createLeaderboard();
-            }
-        }else{
+
+        if(level > db.getScore(1)){
+            db.setUsername(1, name, level);
             createLeaderboard();
+            return;
         }
+        if(level > db.getScore(2)){
+            db.setUsername(2, name, level);
+            createLeaderboard();
+            return;
+        }
+        if(level > db.getScore(3)){
+            db.setUsername(3, name, level);
+            createLeaderboard();
+            return;
+        }
+        createLeaderboard();
     }
 
     public void createLeaderboard(){
