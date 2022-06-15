@@ -9,6 +9,8 @@ public class Main extends JFrame {
         catch (Exception e) {
             e.printStackTrace();
         }
-        new setPanel();
+        String name = JOptionPane.showInputDialog("Enter a username");
+        new setPanel(name);
+
     }
 }

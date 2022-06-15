@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
@@ -16,8 +18,12 @@ public class setPanel extends JFrame {
     JLabel label;
     JLabel gameOver;
     final Font font = new Font(Font.SANS_SERIF, Font.BOLD, 50);
+    JTextField username;
+    JButton usernameB;
+    String name;
 
-    public setPanel(){
+    public setPanel(String name){
+        this.name = name;
         this.setLayout(null);
         random = new Random();
 
@@ -79,6 +85,9 @@ public class setPanel extends JFrame {
     }
 
     public void setColor(){
+        /*if(level > 4){
+            return; create final level(Max level)
+        }*/
         label.setText("Current Level: " + level);
         setBackgroundNull(arrB);
         buttonsColor = new ArrayList<>();
@@ -90,8 +99,6 @@ public class setPanel extends JFrame {
                 buttonsColor.add(first);
                 arrB[first].setBackground(Color.RED);
             }
-
-            System.out.println(buttonsColor);
         }
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -102,11 +109,8 @@ public class setPanel extends JFrame {
             }
         }, 1000);
 
+
     }
-
-
-
-
 
     public void addCorrect(){
         correct++;
@@ -122,9 +126,35 @@ public class setPanel extends JFrame {
         incorrect++;
         if(incorrect >= 3){
             panel.setVisible(false);
-            gameOver.setVisible(true);
-            this.setVisible(true);
+            checkForRanking();
         }
+    }
+
+    public void checkForRanking(){
+        databaseInteract db = new databaseInteract();
+        if(level > db.getScore(3)){
+            if(level > db.getScore(2)){
+                if(level > db.getScore(1)){
+                    db.setUsername(1, name, level);
+                    createLeaderboard();
+                }else{
+                    db.setUsername(2, name, level);
+                    createLeaderboard();
+                }
+            }else{
+                db.setUsername(3, name, level);
+                createLeaderboard();
+            }
+        }else{
+            createLeaderboard();
+        }
+    }
+
+    public void createLeaderboard(){
+        leaderboardPanel pane = new leaderboardPanel(level);
+        pane.setBounds(50,200,400,400);
+        this.add(pane);
+        this.setVisible(true);
     }
 
     public void setBackgroundNull(JButton[] arr){
