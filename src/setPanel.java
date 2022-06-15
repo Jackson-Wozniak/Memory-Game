@@ -114,7 +114,7 @@ public class setPanel extends JFrame {
             correct = 0;
             incorrect = 0;
             level++;
-            buttonsColor.removeAll(buttonsColor);
+            buttonsColor.clear();
             setBackgroundNull(arrB);
             setColor();
         }
@@ -156,7 +156,10 @@ public class setPanel extends JFrame {
     }
 
     public void setBackgroundNull(JButton[] arr){
-        for(JButton b : arr) b.setBackground(null);
+
+        for(JButton b : arr){
+            b.setBackground(null);
+        }
     }
 
     public void timeDelay(long t) {
