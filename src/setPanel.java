@@ -12,6 +12,7 @@ public class setPanel extends JFrame {
     JPanel panel;
     Random random;
     ArrayList<Integer> buttonsColor;
+    ArrayList<Integer> guesses;
     JButton[] arrB;
     JLabel label;
     JLabel gameOver;
@@ -55,6 +56,8 @@ public class setPanel extends JFrame {
             panel.add(arrB[i]);
         }
 
+        guesses = new ArrayList<>();
+
         this.setSize(700, 700);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -70,6 +73,9 @@ public class setPanel extends JFrame {
         for (int i = 0; i < arrB.length; i++) {
             int finalI = i;
             arrB[i].addActionListener(e -> {
+                if(guesses.contains(finalI)) return;
+
+                guesses.add(finalI);
                 if(buttonsColor.contains(finalI)){
                     arrB[finalI].setBackground(Color.GREEN);
                     addCorrect();
@@ -112,6 +118,7 @@ public class setPanel extends JFrame {
         if(correct >= level){
             correct = 0;
             level++;
+            guesses.clear();
             buttonsColor.clear();
             setBackgroundNull(arrB);
             setColor();
