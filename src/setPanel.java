@@ -15,8 +15,10 @@ public class setPanel extends JFrame {
     JButton[] arrB;
     JLabel label;
     JLabel gameOver;
+    JLabel incorrectLabel;
     final Font font = new Font(Font.SANS_SERIF, Font.BOLD, 50);
     String name;
+
 
     public setPanel(String name){
         this.name = name;
@@ -24,9 +26,15 @@ public class setPanel extends JFrame {
         random = new Random();
 
         label = new JLabel("Current Level: " + level);
-        label.setBounds(120,0,490,100);
+        label.setBounds(120,0,490,50);
         label.setFont(font);
         this.add(label);
+
+        incorrectLabel = new JLabel("0/10 Incorrect");
+        incorrectLabel.setBounds(250,60,200,40);
+        incorrectLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        this.add(incorrectLabel);
+
 
         gameOver = new JLabel("GAME OVER");
         gameOver.setBounds(150,200,400,100);
@@ -38,6 +46,7 @@ public class setPanel extends JFrame {
         panel.setBounds(75,100,500,500);
         panel.setLayout(new GridLayout(6, 6, 10, 10));
         this.add(panel);
+        //panel.setBackground(Color.black);
 
         arrB = new JButton[36];
         for (int i = 0; i < arrB.length; i++) {
@@ -65,25 +74,15 @@ public class setPanel extends JFrame {
                     arrB[finalI].setBackground(Color.GREEN);
                     addCorrect();
                 }else{
+                    arrB[finalI].setEnabled(false);
                     arrB[finalI].setBackground(Color.RED);
                     addIncorrect();
                 }
             });
         }
-
-
-
-        /*
-        set value for level, use for loop to print out that number of squares per level,
-        increasing as the user improves. If they get 3 wrong, game ends. Keep calling method
-        that sets the color and gets the guesses with increasing levels. Level 1 = 3 red boxes, 2 = 4 etc
-         */
     }
 
     public void setColor(){
-        /*if(level > 4){
-            return; create final level(Max level)
-        }*/
         label.setText("Current Level: " + level);
         setBackgroundNull(arrB);
         buttonsColor = new ArrayList<>();
@@ -112,7 +111,6 @@ public class setPanel extends JFrame {
         correct++;
         if(correct >= level){
             correct = 0;
-            incorrect = 0;
             level++;
             buttonsColor.clear();
             setBackgroundNull(arrB);
@@ -121,7 +119,8 @@ public class setPanel extends JFrame {
     }
     public void addIncorrect(){
         incorrect++;
-        if(incorrect >= 3){
+        incorrectLabel.setText(incorrect + "/10 Incorrect");
+        if(incorrect >= 10){
             panel.setVisible(false);
             checkForRanking();
         }
@@ -156,9 +155,9 @@ public class setPanel extends JFrame {
     }
 
     public void setBackgroundNull(JButton[] arr){
-
         for(JButton b : arr){
             b.setBackground(null);
+            b.setEnabled(true);
         }
     }
 
