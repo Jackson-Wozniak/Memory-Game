@@ -15,33 +15,33 @@ public class setPanel extends JFrame {
     ArrayList<Integer> guesses;
     JButton[] arrB;
     JLabel label;
-    JLabel gameOver;
     JLabel incorrectLabel;
-    final Font font = new Font(Font.SANS_SERIF, Font.BOLD, 50);
     String name;
-
+    Color correctColor;
 
     public setPanel(String name){
         this.name = name;
         this.setLayout(null);
         random = new Random();
+        correctColor = Color.GREEN;
+
+
 
         label = new JLabel("Current Level: " + level);
         label.setBounds(120,0,490,50);
-        label.setFont(font);
+        label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
         this.add(label);
 
         incorrectLabel = new JLabel("0/10 Incorrect");
         incorrectLabel.setBounds(250,60,200,40);
         incorrectLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        incorrectLabel.setForeground(Color.RED);
         this.add(incorrectLabel);
 
-
-        gameOver = new JLabel("GAME OVER");
-        gameOver.setBounds(150,200,400,100);
-        gameOver.setFont(font);
-        gameOver.setVisible(false);
-        this.add(gameOver);
+        JButton settings = new JButton("Settings");
+        settings.setBounds(5,5,80,30);
+        this.add(settings);
+        settings.addActionListener(e -> new settingsFrame(this));
 
         panel = new JPanel();
         panel.setBounds(75,100,500,500);
@@ -77,7 +77,7 @@ public class setPanel extends JFrame {
 
                 guesses.add(finalI);
                 if(buttonsColor.contains(finalI)){
-                    arrB[finalI].setBackground(Color.GREEN);
+                    arrB[finalI].setBackground(correctColor);
                     addCorrect();
                 }else{
                     arrB[finalI].setEnabled(false);
@@ -156,7 +156,7 @@ public class setPanel extends JFrame {
 
     public void createLeaderboard(){
         leaderboardPanel pane = new leaderboardPanel();
-        pane.setBounds(50,50,600,500);
+        pane.setBounds(50,100,600,295);
         this.add(pane);
         this.setVisible(true);
     }
