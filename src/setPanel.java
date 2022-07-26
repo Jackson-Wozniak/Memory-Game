@@ -24,35 +24,39 @@ public class setPanel extends JFrame {
         this.setLayout(null);
         random = new Random();
         correctColor = Color.GREEN;
+        this.getContentPane().setBackground(CustomColors.dark);
 
 
 
         label = new JLabel("Current Level: " + level);
         label.setBounds(120,0,490,50);
         label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
+        label.setForeground(CustomColors.light);
         this.add(label);
 
         incorrectLabel = new JLabel("0/10 Incorrect");
         incorrectLabel.setBounds(250,60,200,40);
         incorrectLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-        incorrectLabel.setForeground(Color.RED);
+        incorrectLabel.setForeground(CustomColors.teal);
         this.add(incorrectLabel);
 
-        JButton settings = new JButton("Settings");
-        settings.setBounds(5,5,80,30);
-        this.add(settings);
-        settings.addActionListener(e -> new settingsFrame(this));
+//        JButton settings = new JButton("Settings");
+//        settings.setBounds(5,5,80,30);
+//        this.add(settings);
+//        settings.addActionListener(e -> new settingsFrame(this));
 
         panel = new JPanel();
         panel.setBounds(75,100,500,500);
         panel.setLayout(new GridLayout(6, 6, 10, 10));
+        panel.setBackground(CustomColors.dark);
         this.add(panel);
-        //panel.setBackground(Color.black);
 
         arrB = new JButton[36];
         for (int i = 0; i < arrB.length; i++) {
             arrB[i] = new JButton();
             arrB[i].setFocusable(false);
+            arrB[i].setBackground(CustomColors.darkest);
+            arrB[i].setBorder(null);
             panel.add(arrB[i]);
         }
 
@@ -163,7 +167,7 @@ public class setPanel extends JFrame {
 
     public void setBackgroundNull(JButton[] arr){
         for(JButton b : arr){
-            b.setBackground(null);
+            b.setBackground(CustomColors.darkest);
             b.setEnabled(true);
         }
     }

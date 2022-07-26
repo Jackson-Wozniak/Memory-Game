@@ -5,8 +5,8 @@ public class databaseInteract {
 
     public databaseInteract(){
         try{
-            this.connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/memory_game",
-                    SQL_Login.username, SQL_Login.password);
+            this.connect = DriverManager.getConnection(SQL_Login.URL,
+                    SQL_Login.USERNAME, SQL_Login.PASSWORD);
         }catch(Exception e){
             e.printStackTrace();
         }
