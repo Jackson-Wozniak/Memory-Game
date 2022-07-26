@@ -1,3 +1,8 @@
+package panel;
+
+import colors.CustomColors;
+import database.DatabaseInteract;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -5,28 +10,23 @@ import java.util.Random;
 import java.util.TimerTask;
 import java.util.Timer;
 
-public class setPanel extends JFrame {
+public class SetPanel extends JPanel {
     int incorrect = 0;
     int correct = 0;
     int level = 3;
-    JPanel panel;
-    Random random;
-    ArrayList<Integer> buttonsColor;
-    ArrayList<Integer> guesses;
-    JButton[] arrB;
-    JLabel label;
-    JLabel incorrectLabel;
-    String name;
-    Color correctColor;
+    private final JPanel panel;
+    private final Random random = new Random();
+    private ArrayList<Integer> buttonsColor;
+    private final ArrayList<Integer> guesses;
+    private final JButton[] arrB;
+    private final JLabel label;
+    private final JLabel incorrectLabel;
+    private final String name;
 
-    public setPanel(String name){
+    public SetPanel(String name){
         this.name = name;
         this.setLayout(null);
-        random = new Random();
-        correctColor = Color.GREEN;
-        this.getContentPane().setBackground(CustomColors.dark);
-
-
+        this.setBackground(CustomColors.darker);
 
         label = new JLabel("Current Level: " + level);
         label.setBounds(120,0,490,50);
@@ -40,15 +40,10 @@ public class setPanel extends JFrame {
         incorrectLabel.setForeground(CustomColors.teal);
         this.add(incorrectLabel);
 
-//        JButton settings = new JButton("Settings");
-//        settings.setBounds(5,5,80,30);
-//        this.add(settings);
-//        settings.addActionListener(e -> new settingsFrame(this));
-
         panel = new JPanel();
         panel.setBounds(75,100,500,500);
         panel.setLayout(new GridLayout(6, 6, 10, 10));
-        panel.setBackground(CustomColors.dark);
+        panel.setBackground(CustomColors.darker);
         this.add(panel);
 
         arrB = new JButton[36];
@@ -62,18 +57,12 @@ public class setPanel extends JFrame {
 
         guesses = new ArrayList<>();
 
-        this.setSize(700, 700);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
+        this.setPreferredSize(new Dimension(700,700));
         newLevels();
     }
 
     public void newLevels(){
-        timeDelay(500);
         setColor();
-        timeDelay(1000);
-        setBackgroundNull(arrB);
-
         for (int i = 0; i < arrB.length; i++) {
             int finalI = i;
             arrB[i].addActionListener(e -> {
@@ -81,7 +70,7 @@ public class setPanel extends JFrame {
 
                 guesses.add(finalI);
                 if(buttonsColor.contains(finalI)){
-                    arrB[finalI].setBackground(correctColor);
+                    arrB[finalI].setBackground(CustomColors.teal);
                     addCorrect();
                 }else{
                     arrB[finalI].setEnabled(false);
@@ -102,7 +91,7 @@ public class setPanel extends JFrame {
                 i--; //keep going until first variable is new, decrement I to keep correct level
             }else{
                 buttonsColor.add(first);
-                arrB[first].setBackground(Color.RED);
+                arrB[first].setBackground(CustomColors.teal);
             }
         }
         Timer timer = new Timer();
@@ -138,20 +127,20 @@ public class setPanel extends JFrame {
     }
 
     public void checkForRanking(){
-        databaseInteract db = new databaseInteract();
+        DatabaseInteract databaseInteract = new DatabaseInteract();
 
-        if(level > db.getScore(1)){
-            db.setUsername(1, name, level);
+        if(level > databaseInteract.getScore(1)){
+            databaseInteract.setUsername(1, name, level);
             createLeaderboard();
             return;
         }
-        if(level > db.getScore(2)){
-            db.setUsername(2, name, level);
+        if(level > databaseInteract.getScore(2)){
+            databaseInteract.setUsername(2, name, level);
             createLeaderboard();
             return;
         }
-        if(level > db.getScore(3)){
-            db.setUsername(3, name, level);
+        if(level > databaseInteract.getScore(3)){
+            databaseInteract.setUsername(3, name, level);
             createLeaderboard();
             return;
         }
@@ -159,9 +148,9 @@ public class setPanel extends JFrame {
     }
 
     public void createLeaderboard(){
-        leaderboardPanel pane = new leaderboardPanel();
-        pane.setBounds(50,100,600,295);
-        this.add(pane);
+        LeaderboardPanel leaderboardPanel = new LeaderboardPanel();
+        leaderboardPanel.setBounds(50,100,600,295);
+        this.add(leaderboardPanel);
         this.setVisible(true);
     }
 
@@ -171,13 +160,4 @@ public class setPanel extends JFrame {
             b.setEnabled(true);
         }
     }
-
-    public void timeDelay(long t) {
-        try {
-            Thread.sleep(t);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

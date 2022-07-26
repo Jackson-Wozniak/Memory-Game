@@ -1,4 +1,4 @@
 .idea/
 out/
-src/SQL_Login.java
+src/database/SQL_Login.java
 MemoryGame.iml

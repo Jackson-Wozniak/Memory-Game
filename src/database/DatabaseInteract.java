@@ -1,9 +1,11 @@
+package database;
+
 import java.sql.*;
 
-public class databaseInteract {
+public class DatabaseInteract {
     private Connection connect;
 
-    public databaseInteract(){
+    public DatabaseInteract(){
         try{
             this.connect = DriverManager.getConnection(SQL_Login.URL,
                     SQL_Login.USERNAME, SQL_Login.PASSWORD);

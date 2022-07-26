@@ -1,20 +1,27 @@
+package panel;
+
+import colors.CustomColors;
+import database.DatabaseInteract;
+
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 
-public class leaderboardPanel extends JPanel {
+public class LeaderboardPanel extends JPanel {
 
-
-    public leaderboardPanel(){
+    public LeaderboardPanel(){
         this.setLayout(null);
+        this.setBackground(CustomColors.darker);
 
         JLabel titleLabel = new JLabel("Leaderboard");
         titleLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 35));
         titleLabel.setBounds(160,5,250,50);
+        titleLabel.setForeground(CustomColors.light);
 
         JTable leaderboard = createLeaderboard();
-        leaderboard.setBackground(new Color(214,217,223));
+        leaderboard.setBackground(CustomColors.darker);
         leaderboard.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 19));
+        leaderboard.setForeground(CustomColors.light);
         leaderboard.setBounds(5, 55, 590, 240);
         leaderboard.setIntercellSpacing(new Dimension(10, 10));
         leaderboard.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 0, Color.BLACK));
@@ -30,7 +37,7 @@ public class leaderboardPanel extends JPanel {
     }
 
     public JTable createLeaderboard(){
-        databaseInteract db = new databaseInteract();
+        DatabaseInteract db = new DatabaseInteract();
         String[] columns = {"ranking", "username", "score"};
         Object[][] data = {{"ranking", "username", "score"},
                 {1, db.getUsername(1), db.getScore(1)},
