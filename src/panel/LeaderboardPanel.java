@@ -19,6 +19,16 @@ public class LeaderboardPanel extends JPanel {
         titleLabel.setForeground(CustomColors.light);
 
         JTable leaderboard = createLeaderboard();
+        setLeaderboardProperties(leaderboard);
+        TableColumnModel columnModel = leaderboard.getColumnModel();
+        columnModel.getColumn(1).setPreferredWidth(200);
+
+        this.add(leaderboard);
+        this.add(titleLabel);
+        this.setPreferredSize(new Dimension(600,295));
+    }
+
+    public void setLeaderboardProperties(JTable leaderboard){
         leaderboard.setBackground(CustomColors.darker);
         leaderboard.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 19));
         leaderboard.setForeground(CustomColors.light);
@@ -28,12 +38,6 @@ public class LeaderboardPanel extends JPanel {
         leaderboard.setRowHeight(60);
         leaderboard.setShowGrid(true);
         leaderboard.setEnabled(false);
-        TableColumnModel columnModel = leaderboard.getColumnModel();
-        columnModel.getColumn(1).setPreferredWidth(200);
-
-        this.add(leaderboard);
-        this.add(titleLabel);
-        this.setPreferredSize(new Dimension(600,295));
     }
 
     public JTable createLeaderboard(){

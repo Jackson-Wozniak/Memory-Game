@@ -22,6 +22,7 @@ public class SetPanel extends JPanel {
     private final JLabel label;
     private final JLabel incorrectLabel;
     private final String name;
+    private final Timer timer = new Timer();
 
     public SetPanel(String name){
         this.name = name;
@@ -62,13 +63,13 @@ public class SetPanel extends JPanel {
     }
 
     public void newLevels(){
-        setColor();
+        setColorOfLevelButtons();
         for (int i = 0; i < arrB.length; i++) {
             int finalI = i;
             arrB[i].addActionListener(e -> {
                 if(guesses.contains(finalI)) return;
-
                 guesses.add(finalI);
+
                 if(buttonsColor.contains(finalI)){
                     arrB[finalI].setBackground(CustomColors.teal);
                     addCorrect();
@@ -81,12 +82,12 @@ public class SetPanel extends JPanel {
         }
     }
 
-    public void setColor(){
+    public void setColorOfLevelButtons(){
         label.setText("Current Level: " + level);
         setBackgroundNull(arrB);
         buttonsColor = new ArrayList<>();
         for (int i = 0; i < level; i++) {
-            int first = random.nextInt(36);
+            int first = getRandomNumberOneToThirtySix();
             if(buttonsColor.contains(first)){
                 i--; //keep going until first variable is new, decrement I to keep correct level
             }else{
@@ -94,7 +95,10 @@ public class SetPanel extends JPanel {
                 arrB[first].setBackground(CustomColors.teal);
             }
         }
-        Timer timer = new Timer();
+        oneSecondTimer();
+    }
+
+    public void oneSecondTimer(){
         timer.schedule(new TimerTask() {
 
             @Override
@@ -102,8 +106,10 @@ public class SetPanel extends JPanel {
                 setBackgroundNull(arrB);
             }
         }, 1000);
+    }
 
-
+    public int getRandomNumberOneToThirtySix(){
+        return random.nextInt(36);
     }
 
     public void addCorrect(){
@@ -114,7 +120,7 @@ public class SetPanel extends JPanel {
             guesses.clear();
             buttonsColor.clear();
             setBackgroundNull(arrB);
-            setColor();
+            setColorOfLevelButtons();
         }
     }
     public void addIncorrect(){
@@ -128,7 +134,6 @@ public class SetPanel extends JPanel {
 
     public void checkForRanking(){
         DatabaseInteract databaseInteract = new DatabaseInteract();
-
         if(level > databaseInteract.getScore(1)){
             databaseInteract.setUsername(1, name, level);
             createLeaderboard();
